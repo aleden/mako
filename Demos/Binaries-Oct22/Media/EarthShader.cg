@@ -1,0 +1,25 @@
+void EarthShaderv(float4 position : POSITION,
+                   float2 tcoord0 : TEXCOORD0,
+                   
+				   out float4 oPosition : POSITION,
+                   out float2 oTcoord0 : TEXCOORD0,
+                   
+                   uniform float4x4 modelViewProj)          
+{
+	/* Transform position from object space to clip space */
+	oPosition = mul(modelViewProj, position);
+	oTcoord0 = tcoord0;
+}
+
+void EarthShaderf(float2 tcoord0 : TEXCOORD0,
+                   
+                   out float4 oColor : COLOR,
+                   
+                   uniform sampler2D diffTex,
+                   uniform sampler2D glowTex)                 
+                                                            
+{
+	float4 diffColor = tex2D(diffTex, tcoord0);
+	float4 glowColor = tex2D(glowTex, tcoord0);
+	oColor = diffColor + glowColor;
+}
